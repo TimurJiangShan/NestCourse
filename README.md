@@ -1,2 +1,0 @@
-# NetMusic
-React-NetEaseMusic
