@@ -49,7 +49,9 @@ async function getCourses() {
     // .find({ author: 'Mosh', isPublished: true })
     // .find({ price: 10})
     // .find({ price: { $gt: 10, $lte: 20}}) // 这种方法用来写大于，小于等于之类的, 小于 && 大于
-    .find({ price: { $in: [10, 15, 20] } }) // 用数组来做枚举
+    // .find({ price: { $in: [10, 15, 20] } }) // 用数组来做枚举
+    .find()
+    .or([{author: "Mosh"} ,{ isPublished: true}]) // 查询author === Mosh 或者 isPublished === true 的项目
     .limit(10)
     .sort({ name: 1})
     .select({ name: 1, tags: 1 });
