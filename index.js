@@ -50,8 +50,12 @@ async function getCourses() {
     // .find({ price: 10})
     // .find({ price: { $gt: 10, $lte: 20}}) // 这种方法用来写大于，小于等于之类的, 小于 && 大于
     // .find({ price: { $in: [10, 15, 20] } }) // 用数组来做枚举
-    .find()
-    .or([{author: "Mosh"} ,{ isPublished: true}]) // 查询author === Mosh 或者 isPublished === true 的项目
+    // .find()
+    // .or([{author: "Mosh"} ,{ isPublished: true}])i // 查询author === Mosh 或者 isPublished === true 的项目
+    // .and([{author: "Mosh"},{ isPublished: true}])
+    // .find({ author: /^Mosh/ }) // Starts with Mosh
+    // .find({ author: /Hamedani$/i}) // Ends with Hamedani : 大小写敏感， 在末尾加i可以大小写不敏感
+    .find({ author: /.*Mosh.*/i}) // .*sh.* 匹配0-多个 包含sh的子项 before or after
     .limit(10)
     .sort({ name: 1})
     .select({ name: 1, tags: 1 });
