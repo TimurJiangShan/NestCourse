@@ -45,6 +45,9 @@ async function createCourse() {
 * **/
 async function getCourses() {
 
+  const pageNumber = 2;
+  const pageSize = 10;
+  // /api/courses?pageNumber=2&pageSize=10
   const courses = await Course
     // .find({ author: 'Mosh', isPublished: true })
     // .find({ price: 10})
@@ -56,9 +59,12 @@ async function getCourses() {
     // .find({ author: /^Mosh/ }) // Starts with Mosh
     // .find({ author: /Hamedani$/i}) // Ends with Hamedani : 大小写敏感， 在末尾加i可以大小写不敏感
     .find({ author: /.*Mosh.*/i}) // .*sh.* 匹配0-多个 包含sh的子项 before or after
-    .limit(10)
+    // .limit(10)
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
     .sort({ name: 1})
-    .select({ name: 1, tags: 1 });
+    // .select({ name: 1, tags: 1 });
+    // .count()
   console.log(courses);
 }
 
