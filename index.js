@@ -5,6 +5,11 @@ mongoose.connect("mongodb://localhost/mongo-exercises")
   .then(() => console.log("Connect to MongoDB..."))
   .catch(err => console.error("Could not connect to MongoDB"));
 
+
+/*
+* MongoDB 的基本单位是 Collection和document
+*
+* */
 const courseSchema = new mongoose.Schema({
   name: String,
   author: String,
@@ -75,10 +80,6 @@ async function getCourses() {
 // createCourse();
 // getCourses();
 
-
-
-
-
 // Approach: Query First
 // 1. findById()
 // 2. Modify its properties
@@ -112,5 +113,12 @@ async function updateCourse(id) {
   const result = course;
   console.log(result);
 }
- updateCourse('5a68fde3f09ad7646ddec17e');
+// updateCourse('5a68fde3f09ad7646ddec17e');
 // getCourses()
+
+async function removeCourse(id) {
+  const course = await Course.findByIdAndRemove({ _id: id});
+  console.log(course);
+}
+
+removeCourse('5a68fdf95db93f6477053ddd');
