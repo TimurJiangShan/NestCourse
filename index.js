@@ -75,27 +75,42 @@ async function getCourses() {
 // createCourse();
 // getCourses();
 
+
+
+
+
 // Approach: Query First
 // 1. findById()
 // 2. Modify its properties
 // 3. save()
 
 
+// async function updateCourse(id) {
+//   const course = await Course.findById(id);
+//   if (!course) console.log(course);
+//
+//   course.isPublished = true;
+//   course.author = "Another Author";
+//
+//   const result = await course.save();
+//   console.log(result);
+//   console.log(11);
+// }
+
 // Approach: Update First
 // 1. Update directory
 // 2. Optionally: get the updated document
 
-
 async function updateCourse(id) {
-  const course = await Course.findById(id);
-  if (!course) console.log(course);
+  const course = await Course.updateMany({ _id: id}, {
+    $set: {
+      author: "Mosh-upd",
+      isPublished: true
+    }
+  });
 
-  course.isPublished = true;
-  course.author = "Another Author";
-
-  const result = await course.save();
+  const result = course;
   console.log(result);
-  console.log(11);
 }
  updateCourse('5a68fde3f09ad7646ddec17e');
 // getCourses()
