@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // connect 方法返回一个promise
-mongoose.connect("mongodb://localhost/playground")
+mongoose.connect("mongodb://localhost/mongo-exercises")
   .then(() => console.log("Connect to MongoDB..."))
   .catch(err => console.error("Could not connect to MongoDB"));
 
@@ -9,9 +9,11 @@ const courseSchema = new mongoose.Schema({
   name: String,
   author: String,
   tags: [String],
-  date: { type: Date, default: Date.now },
+  date: { type: Date, default: Date.now},
   isPublished: Boolean,
-});
+  price: Number,
+  _id: String, // 这里的ID要显式的写出来
+})
 
 // 开头大写： class
 const Course = mongoose.model("Course", courseSchema);
@@ -58,10 +60,11 @@ async function getCourses() {
     // .and([{author: "Mosh"},{ isPublished: true}])
     // .find({ author: /^Mosh/ }) // Starts with Mosh
     // .find({ author: /Hamedani$/i}) // Ends with Hamedani : 大小写敏感， 在末尾加i可以大小写不敏感
-    .find({ author: /.*Mosh.*/i}) // .*sh.* 匹配0-多个 包含sh的子项 before or after
+    // .find({ author: /.*Mosh.*/i}) // .*sh.* 匹配0-多个 包含sh的子项 before or after
     // .limit(10)
-    .skip((pageNumber - 1) * pageSize)
-    .limit(pageSize)
+    // .skip((pageNumber - 1) * pageSize)
+    // .limit(pageSize)
+    .find()
     .sort({ name: 1})
     // .select({ name: 1, tags: 1 });
     // .count()
@@ -70,6 +73,29 @@ async function getCourses() {
 
 
 // createCourse();
-getCourses();
+// getCourses();
+
+// Approach: Query First
+// 1. findById()
+// 2. Modify its properties
+// 3. save()
 
 
+// Approach: Update First
+// 1. Update directory
+// 2. Optionally: get the updated document
+
+
+async function updateCourse(id) {
+  const course = await Course.findById(id);
+  if (!course) console.log(course);
+
+  course.isPublished = true;
+  course.author = "Another Author";
+
+  const result = await course.save();
+  console.log(result);
+  console.log(11);
+}
+ updateCourse('5a68fde3f09ad7646ddec17e');
+// getCourses()
