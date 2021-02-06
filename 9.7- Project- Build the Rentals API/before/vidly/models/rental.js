@@ -44,7 +44,6 @@ const validateRental = (rental) => {
   const schema = {
     customerId: Joi.string().required(),
     movieId: Joi.string().required(),
-    rentalFee: Joi.number().min(0).max(255),
   };
   return Joi.validate(rental, schema);
 };
