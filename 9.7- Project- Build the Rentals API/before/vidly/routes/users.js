@@ -2,8 +2,6 @@ const _ = require('lodash');
 const { User, validate } = require('../models/user');
 const express = require('express');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -32,7 +30,7 @@ router.post('/', async (req, res) => {
   // pick方法可以挑选自己想要的属性，然后返回一个新的对象
   // res.send(_.pick(user, ['_id', 'name', 'email']));
 
-  const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+  const token = user.generateAuthToken();
   res
     .header('x-auth-token', token)
     .send(_.pick(user, ['_id', 'name', 'email']));
