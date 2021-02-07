@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const { User, validate } = require('../models/user');
-const mongoose = require('mongoose');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
