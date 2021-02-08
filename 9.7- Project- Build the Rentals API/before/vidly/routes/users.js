@@ -3,11 +3,14 @@ const { User, validate } = require('../models/user');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
-router.get('/', async (req, res) => {
-  const users = await User.find().sort('name');
+// get current user
+router.get('/me', auth, async (req, res) => {
+  const users = await User.findById(req.user._id).select('-password');
   res.send(users);
 });
+// Log out 这种操作应该由client端来做：删除token
 
 router.post('/', async (req, res) => {
   const { error } = validate(req.body);
