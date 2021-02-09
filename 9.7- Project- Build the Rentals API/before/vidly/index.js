@@ -1,3 +1,4 @@
+require('express-async-errors'); // 方法1： 使用express-async-errors的包来处理error。 方式2：手写async的middleware
 const mongoose = require('mongoose');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
@@ -11,6 +12,9 @@ const app = express();
 const Joi = require('joi');
 const config = require('config');
 Joi.objectId = require('joi-objectid')(Joi);
+const winston = require('winston');
+
+winston.add(new winston.transports.File({ filename: 'error.log' }));
 
 if (!config.get('jwtPrivateKey')) {
   console.error('FATAL ERROR: jwtPrivateKey is not defined');
